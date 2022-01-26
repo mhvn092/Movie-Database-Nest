@@ -1,0 +1,41 @@
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { GenreService } from './genre.service';
+import { CreateGenreDto } from './dto/create-genre.dto';
+import { UpdateGenreDto } from './dto/update-genre.dto';
+
+@Controller('genre')
+export class GenreController {
+  constructor(private readonly genreService: GenreService) {}
+
+  @Post()
+  create(@Body() createGenreDto: CreateGenreDto) {
+    return this.genreService.create(createGenreDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.genreService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.genreService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
+    return this.genreService.update(+id, updateGenreDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.genreService.remove(+id);
+  }
+  @Put('/:genreId/new-movie/:movieId')
+  put(@Param('genreId') genreId: string, @Param('movieId') movieId: string) {
+    return this.genreService.addMovie(+genreId,+movieId);}
+
+  @Put('/:genreId/new-driector/:directorId')
+  goza(@Param('genreId') genreId: string, @Param('directorId') directorId: string) {
+    return this.genreService.addMovie(+genreId,+directorId);}
+}

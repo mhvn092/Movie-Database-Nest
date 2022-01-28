@@ -15,7 +15,7 @@ export class ActorService {
     @Inject(forwardRef(() => MovieService))
     private readonly movieservice: MovieService,
 
-  ){}
+  ) { }
   create(createActorDto: CreateActorDto) {
     return this.actorRepository.create(createActorDto)
   }
@@ -29,14 +29,28 @@ export class ActorService {
   }
 
   update(id: number, updateActorDto: UpdateActorDto) {
-    return this.actorRepository.update(id,updateActorDto);
+    return this.actorRepository.update(id, updateActorDto);
   }
 
   remove(id: number) {
     return this.actorRepository.delete(id);
   }
-  
-  async addMovie(id: number ,refid: number) {
+  async vote(id: number) {
+    let movie = await this.findOne(id);
+    movie.Votes++;
+    return this.actorRepository.save(movie);
+  }
+
+  async Winner() {
+    const query = this.actorRepository.createQueryBuilder("actor")
+      .select("actor.id")
+      .addSelect("MAX(actor.Votes)", "max")
+      .groupBy("actor.id");
+    const result = await query.getRawOne();
+    let b = this.findOne(result.actor_id)
+    return (await b).name;
+  }
+  async addMovie(id: number, refid: number) {
 
     const actor = await this.findOne(id);
 
@@ -52,7 +66,7 @@ export class ActorService {
     if (actor.movies != undefined) {
       actor.movies.push(movie);
     } else {
-        actor.movies = [movie];
+      actor.movies = [movie];
     }
 
     await this.actorRepository.save(actor)

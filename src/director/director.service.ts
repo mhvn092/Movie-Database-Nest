@@ -18,7 +18,8 @@ export class DirectorService {
     private readonly movieservice: MovieService){}
   
   create(createDirectorDto: CreateDirectorDto) {
-    return this.directorrepository.create(createDirectorDto);
+    this.directorrepository.create(createDirectorDto);
+    return this.directorrepository.save(createDirectorDto);
   }
 
   findAll() {
@@ -37,6 +38,20 @@ export class DirectorService {
     return this.directorrepository.delete(id);
   }
 
+  async Winner() {
+    const query = this.directorrepository.createQueryBuilder("director")
+    .select("director.id")
+    .addSelect("MAX(director.Votes)","max")
+    .groupBy("director.id");
+    const result = await query.getRawOne();
+    let b = this.findOne(result.director_id)
+    return (await b).name;
+  }
+
+  async vote(id:number){
+    let movie = await this.findOne(id);
+    movie.Votes++;
+    return this.directorrepository.save(movie);}
 
   async addMovie(id: number ,refid: number) {
 

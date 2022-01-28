@@ -1,7 +1,8 @@
 import { ActorEntity } from "src/actor/entities/actor.entity";
 import { DirectorEntity } from "src/director/entities/director.entity";
 import { GenreEntity } from "src/genre/entities/genre.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { JudgeEntity } from "src/judge/entity/judge-entity";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('movie')
 export class MovieEntity {
@@ -11,6 +12,12 @@ id:number;
 
 @Column()
 name:string;
+
+@Column({default:0})
+Votes:number;
+
+@OneToMany(()=>JudgeEntity,(judge)=>judge.BestMovie)
+Judges:JudgeEntity[];
 
 @ManyToOne(()=>DirectorEntity, (Director)=> Director.movies)
 @JoinColumn()

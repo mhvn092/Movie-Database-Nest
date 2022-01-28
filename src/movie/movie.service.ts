@@ -21,7 +21,8 @@ export class MovieService {
   private readonly actorservice: ActorService
   ){}
   create(createMovieDto: CreateMovieDto) {
-    return this.movieRepository.create(createMovieDto);
+    this.movieRepository.create(createMovieDto);
+    return this.movieRepository.save(createMovieDto);
   }
 
   findAll() {
@@ -38,6 +39,21 @@ export class MovieService {
 
   remove(id: number) {
     return this.movieRepository.delete(id);
+  }
+
+  async Winner() {
+    const query = this.movieRepository.createQueryBuilder("movie")
+    .select("movie.id")
+    .addSelect("MAX(movie.Votes)","max")
+    .groupBy("movie.id");
+    const result = await query.getRawOne();
+    let b = this.findOne(result.movie_id)
+    return (await b).name;
+  }
+  async vote(id:number){
+    let movie = await this.findOne(id);
+    movie.Votes++;
+    return this.movieRepository.save(movie);
   }
 
   async addGenre(id: number ,refid: number) {
@@ -106,6 +122,8 @@ export class MovieService {
     } else {
         movie.Director = director;
     }
+    this.movieRepository.save(movie);
+     return movie;
   }
 
 }

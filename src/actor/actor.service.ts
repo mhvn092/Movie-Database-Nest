@@ -1,5 +1,6 @@
 import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JudgeEntity } from 'src/judge/entity/judge-entity';
 import { MovieEntity } from 'src/movie/entities/movie.entity';
 import { MovieService } from 'src/movie/movie.service';
 import { Repository } from 'typeorm';
@@ -40,7 +41,15 @@ export class ActorService {
     movie.Votes++;
     return this.actorRepository.save(movie);
   }
-
+  async addjudge(id:number ,judge :JudgeEntity){
+    let movie = await this.findOne(id);
+    if (movie.Judges != undefined) {
+      movie.Judges.push(judge);
+    } else {
+      movie.Judges = [judge];
+    }
+    return this.actorRepository.save(movie);
+  }
   async Winner() {
     const query = this.actorRepository.createQueryBuilder("actor")
       .select("actor.id")

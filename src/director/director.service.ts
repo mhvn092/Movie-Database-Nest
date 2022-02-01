@@ -1,6 +1,7 @@
 import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GenreService } from 'src/genre/genre.service';
+import { JudgeEntity } from 'src/judge/entity/judge-entity';
 import { MovieService } from 'src/movie/movie.service';
 import { Repository } from 'typeorm';
 import { CreateDirectorDto } from './dto/create-director.dto';
@@ -46,6 +47,16 @@ export class DirectorService {
     const result = await query.getRawOne();
     let b = this.findOne(result.director_id)
     return (await b).name;
+  }
+
+  async addjudge(id:number ,judge :JudgeEntity){
+    let movie = await this.findOne(id);
+    if (movie.Judges != undefined) {
+      movie.Judges.push(judge);
+    } else {
+      movie.Judges = [judge];
+    }
+    return this.directorrepository.save(movie);
   }
 
   async vote(id:number){

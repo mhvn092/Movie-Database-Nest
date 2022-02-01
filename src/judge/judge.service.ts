@@ -1,11 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActorService } from 'src/actor/actor.service';
-import { ActorEntity } from 'src/actor/entities/actor.entity';
 import { DirectorService } from 'src/director/director.service';
-import { MovieEntity } from 'src/movie/entities/movie.entity';
 import { MovieService } from 'src/movie/movie.service';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { JudgeEntity } from './entity/judge-entity';
 
 @Injectable()
@@ -29,6 +27,9 @@ export class JudgeService {
   remove(id: number) {
     return this.judgeRepository.delete(id);
   }
+
+
+
   async BestMovie(id: number, refid: number) {
     const judge = await this.judgeRepository.findOne(id);
 
@@ -39,22 +40,21 @@ export class JudgeService {
     const movie = await this.movieservice.findOne(refid);
 
     if (!movie) {
-      throw new NotFoundException('Judge Not Found');
+      throw new NotFoundException('Movie Not Found');
     }
 
-
-    if (movie.Judges != undefined) {
-      movie.Judges.push(judge);
-
-    } else {
-      movie.Judges = [judge];
-
+    const vote = await this.judgeRepository.findOne(id, {
+      where: { BestMovie: IsNull() }
+    })
+    if (vote) {
+      await this.movieservice.addjudge(refid, judge);
+      await this.movieservice.vote(refid);
+      await this.judgeRepository.save(judge)
+      return judge;
     }
-    await this.movieservice.vote(id);
-
-    await this.judgeRepository.save(judge)
-
-    return judge;
+    else {
+      throw new BadRequestException('Already Voted');
+    }
 
   }
 
@@ -68,20 +68,21 @@ export class JudgeService {
     const movie = await this.actorservie.findOne(refid);
 
     if (!movie) {
-      throw new NotFoundException('Judge Not Found');
-    }
-    await this.actorservie.vote(id);
-
-    if (movie.Judges != undefined) {
-      movie.Judges.push(judge);
-    } else {
-      movie.Judges = [judge];
+      throw new NotFoundException('actor Not Found');
     }
 
-    await this.judgeRepository.save(judge)
-
-    return judge;
-
+    const vote = await this.judgeRepository.findOne(id, {
+      where: { BestActor: IsNull() }
+    })
+    if (vote) {
+      await this.actorservie.addjudge(refid, judge);
+      await this.actorservie.vote(refid);
+      await this.judgeRepository.save(judge)
+      return judge;
+    }
+    else {
+      throw new BadRequestException('Already Voted')
+    }
   }
 
   async BestDirector(id: number, refid: number) {
@@ -94,19 +95,21 @@ export class JudgeService {
     const movie = await this.directorservice.findOne(refid);
 
     if (!movie) {
-      throw new NotFoundException('Judge Not Found');
-    }
-    await this.directorservice.vote(id);
-
-    if (movie.Judges != undefined) {
-      movie.Judges.push(judge);
-    } else {
-      movie.Judges = [judge];
+      throw new NotFoundException('director Not Found');
     }
 
-    await this.judgeRepository.save(judge)
+    const vote = await this.judgeRepository.findOne(id, {
+      where: { BestDirector: IsNull() }
+    })
+    if (vote) {
+      await this.directorservice.addjudge(refid, judge)
+      await this.directorservice.vote(refid);
+      await this.judgeRepository.save(judge)
 
-    return judge;
-
+      return judge;
+    }
+    else {
+      throw new BadRequestException('Already Voted');
+    }
   }
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ActorService } from 'src/actor/actor.service';
 import { DirectorService } from 'src/director/director.service';
 import { GenreService } from 'src/genre/genre.service';
+import { JudgeEntity } from 'src/judge/entity/judge-entity';
 import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -55,7 +56,15 @@ export class MovieService {
     movie.Votes++;
     return this.movieRepository.save(movie);
   }
-
+  async addjudge(id:number ,judge :JudgeEntity){
+    let movie = await this.findOne(id);
+    if (movie.Judges != undefined) {
+      movie.Judges.push(judge);
+    } else {
+      movie.Judges = [judge];
+    }
+    return this.movieRepository.save(movie);
+  }
   async addGenre(id: number ,refid: number) {
 
     const movie = await this.findOne(id);

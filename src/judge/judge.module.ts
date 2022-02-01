@@ -14,6 +14,7 @@ import { DirectorModule } from 'src/director/director.module';
   imports:[TypeOrmModule.forFeature([JudgeEntity,MovieEntity,
     ActorEntity,DirectorEntity]),MovieModule,ActorModule,DirectorModule],
   controllers: [JudgeController],
-  providers: [JudgeService]
+  providers: [JudgeService],
+  exports:[JudgeService]
 })
 export class JudgeModule {}

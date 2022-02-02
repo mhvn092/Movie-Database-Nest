@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { DirectorService } from './director.service';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
 
 @Controller('director')
+@ApiTags('Director')
 export class DirectorController {
   constructor(private readonly directorService: DirectorService) {}
 

@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { MovieService } from 'src/movie/movie.service';
 import { ActorService } from './actor.service';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';
 
 @Controller('actor')
+@ApiTags('Actor')
 export class ActorController {
   constructor(private readonly actorService: ActorService,
   ) { }

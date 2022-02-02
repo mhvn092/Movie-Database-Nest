@@ -9,10 +9,12 @@ import { DirectorEntity } from 'src/director/entities/director.entity';
 import { MovieModule } from 'src/movie/movie.module';
 import { ActorModule } from 'src/actor/actor.module';
 import { DirectorModule } from 'src/director/director.module';
+import { TokenModule } from 'src/token/token.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([JudgeEntity,MovieEntity,
-    ActorEntity,DirectorEntity]),MovieModule,ActorModule,DirectorModule],
+    ActorEntity,DirectorEntity]),MovieModule,ActorModule,
+    DirectorModule,TokenModule],
   controllers: [JudgeController],
   providers: [JudgeService],
   exports:[JudgeService]

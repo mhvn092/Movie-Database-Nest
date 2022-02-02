@@ -1,7 +1,9 @@
 import { Controller, Get, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AwardsService } from './awards.service';
 
 @Controller('awards')
+@ApiTags('Awards')
 export class AwardsController {
   constructor(private readonly awardsService: AwardsService) {}
 

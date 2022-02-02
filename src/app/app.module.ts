@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ActorModule } from '../actor/actor.module';
@@ -11,6 +11,8 @@ import { AwardsModule } from '../awards/awards.module';
 import { LoggerModule } from '../logger/logger.module';
 import { APP_FILTER } from '@nestjs/core';
 import { LogExceptionFilter } from '../common/filter/exception-filter.filter';
+import { TokenModule } from 'src/token/token.module';
+import { SimpleMiddleware } from 'src/common/middleware/simple.middleware';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -25,10 +27,20 @@ import { LogExceptionFilter } from '../common/filter/exception-filter.filter';
       database: "typeorm",
       synchronize: true,
     autoLoadEntities: true,
-  }),ActorModule, MovieModule, DirectorModule, GenreModule, JudgeModule, AwardsModule, LoggerModule],
+  }),ActorModule, MovieModule, DirectorModule, GenreModule,
+   JudgeModule, AwardsModule, LoggerModule,TokenModule],
   controllers: [AppController],
   providers: [AppService,
   {provide:APP_FILTER,
   useClass:LogExceptionFilter,}],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+      consumer.apply(SimpleMiddleware).
+      forRoutes({
+        path:'judge',
+        method:RequestMethod.POST
+      })
+  }
+  
+}

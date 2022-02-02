@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('movie')
+@ApiTags('Movie')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 

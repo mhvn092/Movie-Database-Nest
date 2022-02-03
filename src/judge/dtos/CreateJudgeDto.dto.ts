@@ -1,6 +1,10 @@
+import { ApiProperty } from "@nestjs/swagger"
 
-import { OmitType } from '@nestjs/swagger';
-import { JudgeEntity } from '../entity/judge-entity';
-export class CreateJudgeDto extends OmitType(JudgeEntity, [
-  'BestActor','BestDirector','BestMovie','id'
-] as const) {}
+export class CreateJudgeDto {
+  @ApiProperty()
+  name:string
+  @ApiProperty()
+  username:string
+  @ApiProperty()
+  password:string
+}

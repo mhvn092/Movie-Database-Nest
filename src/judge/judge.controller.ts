@@ -21,6 +21,7 @@ export class JudgeController {
   @ApiOperation({description:'signs up judges'})
   @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
+  @ApiBody({type:CreateJudgeDto})
   create(@Body() body:CreateJudgeDto) {
     return this.judgeService.create(body);
   }
@@ -50,17 +51,17 @@ export class JudgeController {
   @ApiOperation({description:'the judge choses his best movie'})
   @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
-  @ApiBody({type:LoginDto})
   @UseGuards(LocalAuthGuard)
-  movie(@Param('judgeId') judgeId, @Param('movieId') movieId) {
+  @ApiBody({type:LoginDto})
+  movie(@Param('judgeId') judgeId:string, @Param('movieId') movieId:string) {
     return this.judgeService.BestMovie(+judgeId,+movieId);
   }
   @Put("/:judgeId/BestActor/:actorId")
   @ApiOperation({description:'the judge choses his best actor'})
   @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
-  @ApiBody({type:LoginDto})
   @UseGuards(LocalAuthGuard)
+  @ApiBody({type:LoginDto})
   actor(@Param('judgeId') judgeId: string, @Param('actorId') actorId: string) {
     return this.judgeService.BestActor(+judgeId,+actorId);
   }
@@ -68,8 +69,8 @@ export class JudgeController {
   @ApiOperation({description:'the judge choses his best director'})
   @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
-  @ApiBody({type:LoginDto})
   @UseGuards(LocalAuthGuard)
+  @ApiBody({type:LoginDto})
   director(@Param('judgeId') judgeId: string, @Param('diecrtorId') diecrtorId: string) {
     return this.judgeService.BestDirector(+judgeId,+diecrtorId);
   }

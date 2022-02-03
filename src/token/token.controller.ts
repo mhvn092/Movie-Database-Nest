@@ -1,5 +1,7 @@
-import { Body, Controller, Headers, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Headers, Post, UseGuards } from '@nestjs/common';
+import {  ApiTags } from '@nestjs/swagger';
+import { LocalAuthGuard } from 'src/common/guard/Local-guard.guard';
+import { TokenDto } from './dtos/TokenDto.dto';
 import { TokenService } from './token.service';
 
 @Controller('token')
@@ -9,7 +11,8 @@ export class TokenController {
 
   
   @Post()
-  create(@Body() body) {
+  @UseGuards(LocalAuthGuard)
+  create(@Body() body:TokenDto) {
     return this.tokenService.create(body);
   }
 }

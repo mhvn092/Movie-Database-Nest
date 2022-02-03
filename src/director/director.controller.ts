@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from 'src/common/guard/token-guard.guard';
 import { DirectorService } from './director.service';
 import { CreateDirectorDto } from './dto/create-director.dto';
@@ -13,6 +13,7 @@ export class DirectorController {
 
   @Post()
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'add that director'})
   create(@Body() createDirectorDto: CreateDirectorDto) {
     return this.directorService.create(createDirectorDto);
@@ -32,6 +33,7 @@ export class DirectorController {
 
   @Patch(':id')
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'update that director'})
   update(@Param('id') id: string, @Body() updateDirectorDto: UpdateDirectorDto) {
     return this.directorService.update(+id, updateDirectorDto);
@@ -39,18 +41,21 @@ export class DirectorController {
 
   @Delete(':id')
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'delete that director'})
   remove(@Param('id') id: string) {
     return this.directorService.remove(+id);
   }
 
   @Put('/:directorId/new-movie/:movieId')
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
   @ApiOperation({description:'add that movie to that director'})
   put(@Param('directorId') directorId: string, @Param('movieId') movieId: string) {
     return this.directorService.addMovie(+directorId,+movieId);}
 
   @Put('/:directorId/new-genre/:genreId')
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
   @ApiOperation({description:'add that genre to that director'})
   genre(@Param('directorId') directorId: string, @Param('genreId') genreId: string) {

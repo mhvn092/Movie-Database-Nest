@@ -1,8 +1,8 @@
-import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GenreService } from 'src/genre/genre.service';
 import { JudgeEntity } from 'src/judge/entity/judge-entity';
 import { MovieService } from 'src/movie/movie.service';
+import { GenreRepository } from 'src/repositories/genreRepository.Repositroy';
 import { Repository } from 'typeorm';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
@@ -13,10 +13,8 @@ export class DirectorService {
   constructor(
     @InjectRepository(DirectorEntity)
     private readonly directorrepository: Repository<DirectorEntity> ,
-    @Inject(forwardRef(() => GenreService))
-    private readonly genreservice: GenreService,
-    @Inject(forwardRef(() => MovieService))
-    private readonly movieservice: MovieService){}
+    private readonly genreRepository:GenreRepository,
+    private readonly movieService: MovieService){}
   
   create(createDirectorDto: CreateDirectorDto) {
     this.directorrepository.create(createDirectorDto);
@@ -72,7 +70,7 @@ export class DirectorService {
       throw new NotFoundException('director Not Found');
     }
 
-    const movie = await this.movieservice.findOne(refid);
+    const movie = await this.movieService.findOne(refid);
 
     if (!movie) {
       throw new NotFoundException('Movie Not Found')
@@ -96,7 +94,7 @@ export class DirectorService {
       throw new NotFoundException('director Not Found');
     }
 
-    const genre = await this.genreservice.findOne(refid);
+    const genre = await this.genreRepository.findOne(refid);
 
     if (!genre) {
       throw new NotFoundException('Movie Not Found')

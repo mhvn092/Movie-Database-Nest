@@ -1,9 +1,9 @@
-import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {  Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ActorService } from 'src/actor/actor.service';
-import { DirectorService } from 'src/director/director.service';
-import { GenreService } from 'src/genre/genre.service';
 import { JudgeEntity } from 'src/judge/entity/judge-entity';
+import { ActorRepository } from 'src/repositories/actorRepository.Repository';
+import { DirectorRepository } from 'src/repositories/directorRepository.Repository';
+import { GenreRepository } from 'src/repositories/genreRepository.Repositroy';
 import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -14,12 +14,9 @@ export class MovieService {
   constructor(
   @InjectRepository(MovieEntity)
   private readonly movieRepository: Repository<MovieEntity>,
-  @Inject(forwardRef(() => DirectorService))
-  private readonly directorservice: DirectorService,
-  @Inject(forwardRef(() => GenreService))
-  private readonly genreservice: GenreService,
-  @Inject(forwardRef(() => ActorService))
-  private readonly actorservice: ActorService
+  private readonly directorRepository: DirectorRepository,
+  private readonly genreRepository: GenreRepository,
+  private readonly actorepository: ActorRepository
   ){}
   create(createMovieDto: CreateMovieDto) {
     this.movieRepository.create(createMovieDto);
@@ -73,7 +70,7 @@ export class MovieService {
       throw new NotFoundException('movie Not Found');
     }
 
-    const genre = await this.genreservice.findOne(refid);
+    const genre = await this.genreRepository.findOne(refid);
 
     if (!movie) {
       throw new NotFoundException('Movie Not Found')
@@ -97,7 +94,7 @@ export class MovieService {
       throw new NotFoundException('movie Not Found');
     }
 
-    const actor = await this.actorservice.findOne(refid);
+    const actor = await this.actorepository.findOne(refid);
 
     if (!actor) {
       throw new NotFoundException('actor Not Found')
@@ -119,7 +116,7 @@ export class MovieService {
       throw new NotFoundException('movie Not Found');
     }
 
-    const director = await this.directorservice.findOne(refid);
+    const director = await this.directorRepository.findOne(refid);
 
     if(!director){
       throw new NotFoundException('movie Not Found');

@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException, UseGuards } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from 'src/common/guard/token-guard.guard';
 import { MovieService } from 'src/movie/movie.service';
 import { ActorService } from './actor.service';
@@ -14,6 +14,7 @@ export class ActorController {
   ) { }
 
   @Post()
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
   @ApiOperation({description:'adding actor'})
   create(@Body() createActorDto: CreateActorDto) {
@@ -34,6 +35,7 @@ export class ActorController {
 
   @Patch(':id')
   @ApiOperation({description:'patch that actor'})
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
   update(@Param('id') id: string, @Body() updateActorDto: UpdateActorDto) {
     return this.actorService.update(+id, updateActorDto);
@@ -46,6 +48,7 @@ export class ActorController {
   }
   @Put("/:actorId/new-movie/:movieId")
   @ApiOperation({description:'add that movie to that actor'})
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @UseGuards(TokenGuard)
   put(@Param('actorId') actorId: string, @Param('movieId') movieId: string) {
     return this.actorService.addMovie(+actorId,+movieId);

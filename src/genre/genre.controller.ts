@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } fro
 import { GenreService } from './genre.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
-import { ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TokenGuard } from 'src/common/guard/token-guard.guard';
 
 @Controller('genre')
@@ -13,6 +13,7 @@ export class GenreController {
 
   @Post()
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'add that genre'})
   create(@Body() createGenreDto: CreateGenreDto) {
     return this.genreService.create(createGenreDto);
@@ -26,6 +27,7 @@ export class GenreController {
 
   @Get(':id')
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'get that genre'})
   findOne(@Param('id') id: string) {
     return this.genreService.findOne(+id);
@@ -33,6 +35,7 @@ export class GenreController {
 
   @Patch(':id')
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'patch that genre'})
   update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
     return this.genreService.update(+id, updateGenreDto);
@@ -40,18 +43,21 @@ export class GenreController {
 
   @Delete(':id')
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'delete that genre'})
   remove(@Param('id') id: string) {
     return this.genreService.remove(+id);
   }
   @Put('/:genreId/new-movie/:movieId')
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'add that movie to that genre'})
   put(@Param('genreId') genreId: string, @Param('movieId') movieId: string) {
     return this.genreService.addMovie(+genreId,+movieId);}
 
   @Put('/:genreId/new-driector/:directorId')
   @UseGuards(TokenGuard)
+  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
   @ApiOperation({description:'add that director to that genre'})
   goza(@Param('genreId') genreId: string, @Param('directorId') directorId: string) {
     return this.genreService.addMovie(+genreId,+directorId);}

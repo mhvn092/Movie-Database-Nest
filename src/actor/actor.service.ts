@@ -1,7 +1,6 @@
-import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JudgeEntity } from 'src/judge/entity/judge-entity';
-import { MovieEntity } from 'src/movie/entities/movie.entity';
 import { MovieService } from 'src/movie/movie.service';
 import { Repository } from 'typeorm';
 import { CreateActorDto } from './dto/create-actor.dto';
@@ -13,8 +12,7 @@ export class ActorService {
   constructor(
     @InjectRepository(ActorEntity)
     private readonly actorRepository: Repository<ActorEntity>,
-    @Inject(forwardRef(() => MovieService))
-    private readonly movieservice: MovieService,
+    private readonly movieService:MovieService,
 
   ) { }
   create(createActorDto: CreateActorDto) {
@@ -67,7 +65,7 @@ export class ActorService {
       throw new NotFoundException('actor Not Found');
     }
 
-    const movie = await this.movieservice.findOne(refid);
+    const movie = await this.movieService.findOne(refid);
 
     if (!movie) {
       throw new NotFoundException('Movie Not Found')

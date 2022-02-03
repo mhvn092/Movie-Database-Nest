@@ -13,6 +13,8 @@ import { APP_FILTER } from '@nestjs/core';
 import { LogExceptionFilter } from '../common/filter/exception-filter.filter';
 import { TokenModule } from 'src/token/token.module';
 import { SimpleMiddleware } from 'src/common/middleware/simple.middleware';
+import { UtilityModule } from 'src/utility/utility.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,11 +26,12 @@ import { SimpleMiddleware } from 'src/common/middleware/simple.middleware';
       extra: {
         trustServerCertificate: true,
       },
-      database: "typeorm",
+      database: "movie",
       synchronize: true,
     autoLoadEntities: true,
   }),ActorModule, MovieModule, DirectorModule, GenreModule,
-   JudgeModule, AwardsModule, LoggerModule,TokenModule],
+   JudgeModule, AwardsModule, LoggerModule,TokenModule,UtilityModule
+  ],
   controllers: [AppController],
   providers: [AppService,
   {provide:APP_FILTER,

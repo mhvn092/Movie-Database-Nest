@@ -10,11 +10,14 @@ import { MovieModule } from 'src/movie/movie.module';
 import { ActorModule } from 'src/actor/actor.module';
 import { DirectorModule } from 'src/director/director.module';
 import { TokenModule } from 'src/token/token.module';
+import { UtilityModule } from 'src/utility/utility.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { LoggerModule } from 'src/logger/logger.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([JudgeEntity,MovieEntity,
     ActorEntity,DirectorEntity]),MovieModule,ActorModule,
-    DirectorModule,TokenModule],
+    DirectorModule,TokenModule,UtilityModule,AuthModule,LoggerModule],
   controllers: [JudgeController],
   providers: [JudgeService],
   exports:[JudgeService]

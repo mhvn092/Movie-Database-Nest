@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer";
 import { ActorEntity } from "src/actor/entities/actor.entity";
 import { DirectorEntity } from "src/director/entities/director.entity";
 import { MovieEntity } from "src/movie/entities/movie.entity";
@@ -11,7 +12,14 @@ export class JudgeEntity {
 
     @Column()
     name:string;
-    
+
+    @Column({unique:true})
+    username:string;
+
+    @Column()
+    @Exclude()
+    password:string;
+
     @ManyToOne(()=>MovieEntity,(movie)=>movie.Judges)
     @JoinColumn()
     BestMovie:MovieEntity;

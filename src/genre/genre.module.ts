@@ -7,10 +7,11 @@ import { MovieEntity } from 'src/movie/entities/movie.entity';
 import { GenreEntity } from './entities/genre.entity';
 import { MovieModule } from 'src/movie/movie.module';
 import { DirectorModule } from 'src/director/director.module';
+import { TokenModule } from 'src/token/token.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([DirectorEntity,MovieEntity,GenreEntity])
-  ,forwardRef(() =>MovieModule),forwardRef(() =>DirectorModule)],
+  ,forwardRef(() =>MovieModule),forwardRef(() =>DirectorModule),TokenModule],
   controllers: [GenreController],
   providers: [GenreService],
   exports:[GenreService]

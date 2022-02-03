@@ -8,10 +8,11 @@ import { DirectorEntity } from './entities/director.entity';
 import { MovieModule } from 'src/movie/movie.module';
 import { GenreModule } from 'src/genre/genre.module';
 import { JudgeEntity } from 'src/judge/entity/judge-entity';
+import { TokenModule } from 'src/token/token.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([DirectorEntity,MovieEntity,GenreEntity,JudgeEntity]),
-  forwardRef(() =>MovieModule),forwardRef(() =>GenreModule)],
+  forwardRef(() =>MovieModule),forwardRef(() =>GenreModule),TokenModule],
   controllers: [DirectorController],
   providers: [DirectorService],
   exports:[DirectorService]

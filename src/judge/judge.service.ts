@@ -3,8 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ActorService } from 'src/actor/actor.service';
 import { DirectorService } from 'src/director/director.service';
 import { MovieService } from 'src/movie/movie.service';
-import { IsNull, Not, Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
+import { CreateJudgeDto } from './dtos/CreateJudgeDto.dto';
 import { JudgeEntity } from './entity/judge-entity';
+import { hashSync, compare } from 'bcrypt';
+import { UtilityService } from 'src/utility/utility.service';
 
 @Injectable()
 export class JudgeService {
@@ -14,13 +17,20 @@ export class JudgeService {
     private readonly movieservice: MovieService,
     private readonly actorservie: ActorService,
     private readonly directorservice: DirectorService,
+    private readonly utilityService:UtilityService,
   ) { }
 
-  create(name: JudgeEntity) {
-    this.judgeRepository.create(name);
-    return this.judgeRepository.save(name);
+
+    
+  async create(judge: CreateJudgeDto) {
+    judge.password = await this.utilityService.hash(judge.password);
+    this.judgeRepository.create(judge);
+    return this.judgeRepository.save(judge);
 
   }
+
+  
+
   findAll() {
     return this.judgeRepository.find()
   }

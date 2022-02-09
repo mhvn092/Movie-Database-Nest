@@ -49,6 +49,10 @@ export class JudgeController {
   }
 
   @Patch('/:id')
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
+  @ApiOperation({description:'update that judge'})
   update(@Param('id') id:string, @Body()body:UpdateJudgeDto){
     return this.judgeService.updateRole(+id,body);
   }

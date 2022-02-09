@@ -5,12 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActorEntity } from './entities/actor.entity';
 import { MovieEntity } from 'src/movie/entities/movie.entity';
 import { JudgeEntity } from 'src/judge/entity/judge-entity';
-import { TokenModule } from 'src/token/token.module';
 import { MovieModule } from 'src/movie/movie.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([ActorEntity,MovieEntity,
-    JudgeEntity,]),TokenModule,MovieModule],
+    JudgeEntity,]),MovieModule],
   controllers: [ActorController],
   providers: [ActorService],
   exports:[ActorService]

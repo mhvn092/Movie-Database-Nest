@@ -1,6 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common';
-import { ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { TokenGuard } from 'src/common/guard/token-guard.guard';
+import { ApiBearerAuth, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Role } from 'src/common/decorator/role.decorator';
+import { JwtGuard } from 'src/common/guard/jwt.guard';
+import { RoleGuard } from 'src/common/guard/role.guard';
+import { RoleEnum } from 'src/roles/roles.enum';
 import { DirectorService } from './director.service';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
@@ -12,8 +15,9 @@ export class DirectorController {
   constructor(private readonly directorService: DirectorService) {}
 
   @Post()
-  @UseGuards(TokenGuard)
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'add that director'})
   create(@Body() createDirectorDto: CreateDirectorDto) {
     return this.directorService.create(createDirectorDto);
@@ -32,31 +36,35 @@ export class DirectorController {
   }
 
   @Patch(':id')
-  @UseGuards(TokenGuard)
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'update that director'})
   update(@Param('id') id: string, @Body() updateDirectorDto: UpdateDirectorDto) {
     return this.directorService.update(+id, updateDirectorDto);
   }
 
   @Delete(':id')
-  @UseGuards(TokenGuard)
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'delete that director'})
   remove(@Param('id') id: string) {
     return this.directorService.remove(+id);
   }
 
   @Put('/:directorId/new-movie/:movieId')
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
-  @UseGuards(TokenGuard)
+  @Role(RoleEnum.ADMIN)
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'add that movie to that director'})
   put(@Param('directorId') directorId: string, @Param('movieId') movieId: string) {
     return this.directorService.addMovie(+directorId,+movieId);}
 
   @Put('/:directorId/new-genre/:genreId')
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
-  @UseGuards(TokenGuard)
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'add that genre to that director'})
   genre(@Param('directorId') directorId: string, @Param('genreId') genreId: string) {
    return this.directorService.addGenre(+directorId,+genreId);}

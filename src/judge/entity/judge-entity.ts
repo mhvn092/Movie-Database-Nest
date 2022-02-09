@@ -1,8 +1,10 @@
 import { Exclude } from "class-transformer";
+import { Matches, MinLength } from "class-validator";
 import { ActorEntity } from "src/actor/entities/actor.entity";
 import { DirectorEntity } from "src/director/entities/director.entity";
 import { MovieEntity } from "src/movie/entities/movie.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { RoleEntity } from "src/roles/entities/role.entity";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('judge')
 export class JudgeEntity {
@@ -31,4 +33,8 @@ export class JudgeEntity {
     @ManyToOne(()=>DirectorEntity,(director)=>director.Judges)
     @JoinColumn()
     BestDirector:DirectorEntity;
+
+    @ManyToMany(()=>RoleEntity,(role)=>role.judges)
+    @JoinTable()
+    roles:RoleEntity[];
 }

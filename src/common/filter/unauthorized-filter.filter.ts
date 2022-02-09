@@ -26,6 +26,6 @@ export class UnauthorizedFilter implements ExceptionFilter {
       logId: log.id,
     });
 
-    response.redirect('./login',301);
+    response.redirect(301,'./judge/login');
   }
 }

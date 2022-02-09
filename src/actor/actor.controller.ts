@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException, UseGuards } from '@nestjs/common';
-import { ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { TokenGuard } from 'src/common/guard/token-guard.guard';
-import { MovieService } from 'src/movie/movie.service';
+import { ApiBearerAuth, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Role } from 'src/common/decorator/role.decorator';
+import { JwtGuard } from 'src/common/guard/jwt.guard';
+import { RoleGuard } from 'src/common/guard/role.guard';
+import { RoleEnum } from 'src/roles/roles.enum';
 import { ActorService } from './actor.service';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';
@@ -14,8 +16,9 @@ export class ActorController {
   ) { }
 
   @Post()
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
-  @UseGuards(TokenGuard)
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'adding actor'})
   create(@Body() createActorDto: CreateActorDto) {
     return this.actorService.create(createActorDto);
@@ -34,22 +37,27 @@ export class ActorController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'patch that actor'})
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
-  @UseGuards(TokenGuard)
   update(@Param('id') id: string, @Body() updateActorDto: UpdateActorDto) {
     return this.actorService.update(+id, updateActorDto);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN)
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'delete that actor'})
   remove(@Param('id') id: string) {
     return this.actorService.remove(+id);
   }
   @Put("/:actorId/new-movie/:movieId")
+  @Role(RoleEnum.ADMIN)
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'add that movie to that actor'})
-  @ApiHeader({name: 'Token',description: 'Send Your token baby'})
-  @UseGuards(TokenGuard)
   put(@Param('actorId') actorId: string, @Param('movieId') movieId: string) {
     return this.actorService.addMovie(+actorId,+movieId);
   }

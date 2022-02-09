@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ActorModule } from '../actor/actor.module';
@@ -9,33 +9,49 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JudgeModule } from '../judge/judge.module';
 import { AwardsModule } from '../awards/awards.module';
 import { LoggerModule } from '../logger/logger.module';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
 import { LogExceptionFilter } from '../common/filter/exception-filter.filter';
-import { TokenModule } from 'src/token/token.module';
 import { SimpleMiddleware } from 'src/common/middleware/simple.middleware';
 import { UtilityModule } from 'src/utility/utility.module';
-import { AuthModule } from 'src/auth/auth.module';
+import appconfig from './config/appconfig';
+
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'postgres',
-      host: "localhost",
-      port: 5432,
-      username: "postgres",
-      password: "123",
-      extra: {
-        trustServerCertificate: true,
-      },
-      database: "movie",
-      synchronize: true,
-    autoLoadEntities: true,
+  imports: [
+    ConfigModule.forRoot({
+      load: [appconfig],
+      }),
+    TypeOrmModule.forRootAsync({
+        imports: [ConfigModule.forFeature(appconfig)],
+        useFactory: (app: ConfigType<typeof appconfig>) => {
+          return {
+            type: 'postgres',
+            ...app.database,
+            extra: {
+              trustServerCertificate: true,
+            },
+            synchronize: true,
+            autoLoadEntities: true,
+          };
+        },
+        inject: [appconfig.KEY],
   }),ActorModule, MovieModule, DirectorModule, GenreModule,
-   JudgeModule, AwardsModule, LoggerModule,TokenModule,UtilityModule
+   JudgeModule, AwardsModule, LoggerModule,UtilityModule,
   ],
   controllers: [AppController],
   providers: [AppService,
   {provide:APP_FILTER,
-  useClass:LogExceptionFilter,}],
+  useClass:LogExceptionFilter,}
+  ,{
+    provide:APP_PIPE,
+    inject: [ConfigService],
+    useFactory: (configService: ConfigService) => {
+      return new ValidationPipe({
+      whitelist: configService.get<boolean>('VALIDATION_WHITE_LIST'),
+      forbidNonWhitelisted: configService.get<boolean>(
+      'FORBIDDEN_NON_WHITE_LISTED'),
+      })}}],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

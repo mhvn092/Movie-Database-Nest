@@ -40,7 +40,7 @@ export class JudgeController {
   
   @Get()
   @ApiBearerAuth()
-  @Role(RoleEnum.ADMIN)
+  @Role(RoleEnum.ADMIN,RoleEnum.JUDGE)
   @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'get all them judges'})
   //@UseInterceptors(SimpleInterceptor)
@@ -50,7 +50,7 @@ export class JudgeController {
 
   @Patch('/:id')
   @ApiBearerAuth()
-  @Role(RoleEnum.ADMIN)
+  @Role(RoleEnum.ADMIN,RoleEnum.JUDGE)
   @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'update that judge'})
   update(@Param('id') id:string, @Body()body:UpdateJudgeDto){
@@ -59,12 +59,14 @@ export class JudgeController {
 
   @Delete(':id')
   @ApiBearerAuth()
+  @Role(RoleEnum.ADMIN,RoleEnum.JUDGE)
   @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'delete that judge'})
   remove(@Param('id') id: string) {
     return this.judgeService.remove(+id);
   }
   @Put("/:judgeId/Bestmovie/:movieId")
+  @Role(RoleEnum.JUDGE)
   @ApiOperation({description:'the judge choses his best movie'})
   @UseGuards(JwtGuard,RoleGuard)
   @ApiBearerAuth()
@@ -73,6 +75,7 @@ export class JudgeController {
     return this.judgeService.BestMovie(+judgeId,+movieId);
   }
   @Put("/:judgeId/BestActor/:actorId")
+  @Role(RoleEnum.JUDGE)
   @ApiOperation({description:'the judge choses his best actor'})
   @UseGuards(JwtGuard,RoleGuard)
   @ApiBearerAuth()
@@ -81,6 +84,7 @@ export class JudgeController {
     return this.judgeService.BestActor(+judgeId,+actorId);
   }
   @Put("/:judgeId/BestDirector/:diecrtorId")
+  @Role(RoleEnum.JUDGE)
   @ApiOperation({description:'the judge choses his best director'})
   @UseGuards(JwtGuard,RoleGuard)
   @ApiBearerAuth()

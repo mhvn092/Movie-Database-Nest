@@ -1,5 +1,5 @@
-import { JudgeEntity } from "src/judge/entity/judge-entity";
 import { EntityRepository, Repository } from "typeorm";
+import { JudgeEntity } from "../judge/entity/judge-entity";
 
 
 @EntityRepository(JudgeEntity)

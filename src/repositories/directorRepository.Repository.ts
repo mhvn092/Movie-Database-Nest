@@ -1,6 +1,5 @@
-
-import { DirectorEntity } from "src/director/entities/director.entity";
 import { EntityRepository, Repository } from "typeorm";
+import { DirectorEntity } from "../director/entities/director.entity";
 
 @EntityRepository(DirectorEntity)
 export class DirectorRepository extends Repository<DirectorEntity>{}

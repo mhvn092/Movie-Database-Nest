@@ -1,6 +1,6 @@
-import { JudgeEntity } from "src/judge/entity/judge-entity";
-import { MovieEntity } from "src/movie/entities/movie.entity";
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { JudgeEntity } from "../../judge/entity/judge-entity";
+import { MovieEntity } from "../../movie/entities/movie.entity";
 
 @Entity('actor')
 export class ActorEntity {

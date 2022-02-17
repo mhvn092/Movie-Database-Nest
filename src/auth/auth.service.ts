@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JudgeEntity } from 'src/judge/entity/judge-entity';
-import { judgeRepository } from 'src/repositories/JudeRepository.Repositroy';
-import { UtilityService } from 'src/utility/utility.service';
+import { JudgeEntity } from '../judge/entity/judge-entity';
+import { UtilityService } from '../utility/utility.service';
+import { judgeRepository } from '../repositories/JudeRepository.Repositroy';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly judgeRepository:judgeRepository,
+    constructor(private readonly JudgeRepository:judgeRepository,
         private readonly utilityService:UtilityService
         ,private readonly jwtService:JwtService){}
 
     async validate(user:string,pass:string){
-        const username= await this.judgeRepository.findByUsername(user);
+        const username= await this.JudgeRepository.findByUsername(user);
 
         if (await this.utilityService.compare(pass,username.password)){
             return username;}

@@ -1,10 +1,10 @@
 import {  Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JudgeEntity } from 'src/judge/entity/judge-entity';
-import { ActorRepository } from 'src/repositories/actorRepository.Repository';
-import { DirectorRepository } from 'src/repositories/directorRepository.Repository';
-import { GenreRepository } from 'src/repositories/genreRepository.Repositroy';
 import { Repository } from 'typeorm';
+import { JudgeEntity } from '../judge/entity/judge-entity';
+import { ActorRepository } from '../repositories/actorRepository.Repository';
+import { DirectorRepository } from '../repositories/directorRepository.Repository';
+import { GenreRepository } from '../repositories/genreRepository.Repositroy';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './entities/movie.entity';

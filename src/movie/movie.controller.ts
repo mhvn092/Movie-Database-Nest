@@ -3,10 +3,11 @@ import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { ApiBearerAuth, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/common/guard/jwt.guard';
-import { Role } from 'src/common/decorator/role.decorator';
-import { RoleGuard } from 'src/common/guard/role.guard';
-import { RoleEnum } from 'src/roles/roles.enum';
+import { Role } from '../common/decorator/role.decorator';
+import { JwtGuard } from '../common/guard/jwt.guard';
+import { RoleGuard } from '../common/guard/role.guard';
+import { RoleEnum } from '../roles/roles.enum';
+
 
 @Controller('movie')
 @ApiNotFoundResponse({description:'not found what we were looking for'})

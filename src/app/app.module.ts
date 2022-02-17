@@ -12,9 +12,9 @@ import { LoggerModule } from '../logger/logger.module';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
 import { LogExceptionFilter } from '../common/filter/exception-filter.filter';
-import { SimpleMiddleware } from 'src/common/middleware/simple.middleware';
-import { UtilityModule } from 'src/utility/utility.module';
 import appconfig from './config/appconfig';
+import { SimpleMiddleware } from '../common/middleware/simple.middleware';
+import { UtilityModule } from '../utility/utility.module';
 
 
 @Module({

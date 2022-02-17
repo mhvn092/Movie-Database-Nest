@@ -1,10 +1,9 @@
 import { Exclude } from "class-transformer";
-import { Matches, MinLength } from "class-validator";
-import { ActorEntity } from "src/actor/entities/actor.entity";
-import { DirectorEntity } from "src/director/entities/director.entity";
-import { MovieEntity } from "src/movie/entities/movie.entity";
-import { RoleEntity } from "src/roles/entities/role.entity";
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ActorEntity } from "../../actor/entities/actor.entity";
+import { DirectorEntity } from "../../director/entities/director.entity";
+import { MovieEntity } from "../../movie/entities/movie.entity";
+import { RoleEntity } from "../../roles/entities/role.entity";
 
 @Entity('judge')
 export class JudgeEntity {

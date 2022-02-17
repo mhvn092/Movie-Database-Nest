@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Role } from 'src/common/decorator/role.decorator';
-import { JwtGuard } from 'src/common/guard/jwt.guard';
-import { RoleGuard } from 'src/common/guard/role.guard';
-import { RoleEnum } from 'src/roles/roles.enum';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Role } from '../common/decorator/role.decorator';
+import { JwtGuard } from '../common/guard/jwt.guard';
+import { RoleGuard } from '../common/guard/role.guard';
+import { RoleEnum } from '../roles/roles.enum';
 import { ActorService } from './actor.service';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';

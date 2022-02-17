@@ -3,9 +3,9 @@ import { ActorService } from './actor.service';
 import { ActorController } from './actor.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActorEntity } from './entities/actor.entity';
-import { MovieEntity } from 'src/movie/entities/movie.entity';
-import { JudgeEntity } from 'src/judge/entity/judge-entity';
-import { MovieModule } from 'src/movie/movie.module';
+import { JudgeEntity } from '../judge/entity/judge-entity';
+import { MovieEntity } from '../movie/entities/movie.entity';
+import { MovieModule } from '../movie/movie.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([ActorEntity,MovieEntity,

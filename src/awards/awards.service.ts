@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ActorService } from 'src/actor/actor.service';
-import { DirectorService } from 'src/director/director.service';
-import { MovieService } from 'src/movie/movie.service';
+import { ActorService } from '../actor/actor.service';
+import { DirectorService } from '../director/director.service';
+import { MovieService } from '../movie/movie.service';
+
 
 @Injectable()
 export class AwardsService {

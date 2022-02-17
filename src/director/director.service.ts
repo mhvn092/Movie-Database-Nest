@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JudgeEntity } from 'src/judge/entity/judge-entity';
-import { MovieService } from 'src/movie/movie.service';
-import { GenreRepository } from 'src/repositories/genreRepository.Repositroy';
 import { Repository } from 'typeorm';
+import { JudgeEntity } from '../judge/entity/judge-entity';
+import { MovieService } from '../movie/movie.service';
+import { GenreRepository } from '../repositories/genreRepository.Repositroy';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
 import { DirectorEntity } from './entities/director.entity';

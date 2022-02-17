@@ -1,5 +1,5 @@
-import { JudgeEntity } from 'src/judge/entity/judge-entity';
 import { Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
+import { JudgeEntity } from '../../judge/entity/judge-entity';
 
 @Entity('role')
 export class RoleEntity {

@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { JudgeService } from "src/judge/judge.service";
+import { JudgeService } from "../../judge/judge.service";
 import {  RoleConstant } from "../decorator/role.decorator";
 
 @Injectable()

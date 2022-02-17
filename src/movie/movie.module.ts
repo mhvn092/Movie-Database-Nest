@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { MovieController } from './movie.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DirectorEntity } from 'src/director/entities/director.entity';
-import { GenreEntity } from 'src/genre/entities/genre.entity';
 import { MovieEntity } from './entities/movie.entity';
-import { JudgeEntity } from 'src/judge/entity/judge-entity';
-import { GenreRepository } from 'src/repositories/genreRepository.Repositroy';
-import { ActorRepository } from 'src/repositories/actorRepository.Repository';
-import { DirectorRepository } from 'src/repositories/directorRepository.Repository';
+import { DirectorEntity } from '../director/entities/director.entity';
+import { GenreEntity } from '../genre/entities/genre.entity';
+import { JudgeEntity } from '../judge/entity/judge-entity';
+import { ActorRepository } from '../repositories/actorRepository.Repository';
+import { DirectorRepository } from '../repositories/directorRepository.Repository';
+import { GenreRepository } from '../repositories/genreRepository.Repositroy';
 
 
 @Module({

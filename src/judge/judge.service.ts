@@ -1,15 +1,15 @@
 import { BadRequestException, Catch, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ActorService } from 'src/actor/actor.service';
-import { DirectorService } from 'src/director/director.service';
-import { MovieService } from 'src/movie/movie.service';
 import { IsNull, Repository } from 'typeorm';
 import { CreateJudgeDto } from './dtos/CreateJudgeDto.dto';
 import { JudgeEntity } from './entity/judge-entity';
-import { UtilityService } from 'src/utility/utility.service';
-import { RolesService } from 'src/roles/roles.service';
-import { RoleEnum } from 'src/roles/roles.enum';
 import { UpdateJudgeDto } from './dtos/UpdateJudgeDto.dto';
+import { ActorService } from '../actor/actor.service';
+import { DirectorService } from '../director/director.service';
+import { MovieService } from '../movie/movie.service';
+import { RoleEnum } from '../roles/roles.enum';
+import { RolesService } from '../roles/roles.service';
+import { UtilityService } from '../utility/utility.service';
 
 @Injectable()
 export class JudgeService {
@@ -73,10 +73,7 @@ export class JudgeService {
 
   async role(sub: number) {
     return await this.judgeRepository
-      .createQueryBuilder("judge")
-      .select("judge", "role.id")
-      .leftJoinAndSelect("judge.roles", "role")
-      .where('judge.id=:id', { id: sub }).getOne();
+      .findOne(sub,{relations:['roles']})
   }
 
   findone(id: number) {

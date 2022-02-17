@@ -3,16 +3,17 @@ import { JudgeService } from './judge.service';
 import { JudgeController } from './judge.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JudgeEntity } from './entity/judge-entity';
-import { MovieEntity } from 'src/movie/entities/movie.entity';
-import { ActorEntity } from 'src/actor/entities/actor.entity';
-import { DirectorEntity } from 'src/director/entities/director.entity';
-import { MovieModule } from 'src/movie/movie.module';
-import { ActorModule } from 'src/actor/actor.module';
-import { DirectorModule } from 'src/director/director.module';
-import { UtilityModule } from 'src/utility/utility.module';
-import { AuthModule } from 'src/auth/auth.module';
-import { LoggerModule } from 'src/logger/logger.module';
-import { RolesModule } from 'src/roles/roles.module';
+import { ActorModule } from '../actor/actor.module';
+import { ActorEntity } from '../actor/entities/actor.entity';
+import { AuthModule } from '../auth/auth.module';
+import { DirectorModule } from '../director/director.module';
+import { DirectorEntity } from '../director/entities/director.entity';
+import { LoggerModule } from '../logger/logger.module';
+import { MovieEntity } from '../movie/entities/movie.entity';
+import { MovieModule } from '../movie/movie.module';
+import { RolesModule } from '../roles/roles.module';
+import { UtilityModule } from '../utility/utility.module';
+
 
 @Global()
 @Module({

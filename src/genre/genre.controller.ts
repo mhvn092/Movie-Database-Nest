@@ -67,5 +67,5 @@ export class GenreController {
   @UseGuards(JwtGuard,RoleGuard)
   @ApiOperation({description:'add that director to that genre'})
   goza(@Param('genreId') genreId: string, @Param('directorId') directorId: string) {
-    return this.genreService.addMovie(+genreId,+directorId);}
+    return this.genreService.addDirector(+genreId,+directorId);}
 }

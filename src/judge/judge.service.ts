@@ -27,8 +27,8 @@ export class JudgeService {
 
   async create(judge: CreateJudgeDto) {
 
-    const exists = this.judgeRepository.findOne({ username: judge.username })
-
+    const exists = await this.judgeRepository.findOne({ username: judge.username })
+    
     if (exists) {
       throw new ConflictException('username already exists')
     }
